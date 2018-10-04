@@ -235,15 +235,20 @@
 
 
     var functiontoCall = 'myContractInstance.' + method;
-    var params;
+    var params = '';
     var ctrl = document.querySelectorAll("[id=" + input + "]");
 
     for (var i = 0; i < ctrl.length; i++) {
-      if (i == 0) {
-        params = "'" + add0xforAddress(ctrl[i].value) + "'"
+      console.log(ctrl[i].value);
+      var stringQuote = "'";
+      if (ctrl[i].value.startsWith('[') && ctrl[i].value.endsWith(']')) { // Is Array
+        stringQuote = ""
+      }
+      if (i === 0) {
+        params = stringQuote + add0xforAddress(ctrl[i].value) + stringQuote
       }
       else {
-        params = params + ",'" + ctrl[i].value + "'"
+        params = params + "," + stringQuote + ctrl[i].value + stringQuote
       }
       if (ctrl[i].value == '') {
         document.getElementById(input).focus();
@@ -251,6 +256,7 @@
         return false;
       }
     }
+    console.log(functiontoCall + "(" + params + ", function(err, res){ showTx(res, '" + input + "'); });");
 
     new Function(functiontoCall + "(" + params + ", function(err, res){ showTx(res, '" + input + "'); });")();
 
