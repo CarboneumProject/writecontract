@@ -233,13 +233,11 @@
 
   function write0(method, input) {
 
-
     var functiontoCall = 'myContractInstance.' + method;
     var params = '';
     var ctrl = document.querySelectorAll("[id=" + input + "]");
 
     for (var i = 0; i < ctrl.length; i++) {
-      console.log(ctrl[i].value);
       var stringQuote = "'";
       if (ctrl[i].value.startsWith('[') && ctrl[i].value.endsWith(']')) { // Is Array
         stringQuote = ""
@@ -256,7 +254,6 @@
         return false;
       }
     }
-    console.log(functiontoCall + "(" + params + ", function(err, res){ showTx(res, '" + input + "'); });");
 
     new Function(functiontoCall + "(" + params + ", function(err, res){ showTx(res, '" + input + "'); });")();
 
@@ -333,7 +330,7 @@
 
         });
       }
-    })
+    });
 
     setTimeout(function () {
       window.parent.writeContractLoaded = true;
